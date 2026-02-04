@@ -8,12 +8,19 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCartCheck } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
+import { FaMinus, FaPlus } from "react-icons/fa6";
+
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const router = useRouter();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { cart, removeFromCart, increaseQty, decreaseQty, totalPrice } =
+    useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleNavMobile = () => {
     setIsOpen((prevState) => !prevState);
@@ -31,6 +38,11 @@ export default function Navbar() {
     setIsLoggedIn(false);
     setIsOpen(false);
     router.push("/login");
+  };
+
+  const handleCart = () => {
+    setIsCartOpen((prevState) => !prevState);
+    setIsOpen(false);
   };
 
   return (
@@ -84,9 +96,14 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
-              <button className="flex cursor-pointer items-center gap-2 text-xl font-medium">
+              <button
+                onClick={handleCart}
+                className="flex cursor-pointer items-center gap-2 text-xl font-medium"
+              >
                 <BsCartCheck className="size-7" />
-                <span className="text-purple-400">2</span>
+                <span className="text-purple-400">
+                  {cart.length > 0 ? cart.length : "Cart"}
+                </span>
               </button>
               <button
                 onClick={handleLogout}
@@ -101,6 +118,89 @@ export default function Navbar() {
         {/* ./ nav item list */}
       </div>
       {/* ./ mobile nav */}
+
+      {/* cart items */}
+      {isCartOpen && (
+        <div className="fixed inset-0 left-1/2 mt-4 flex w-80 -translate-x-1/2 flex-col justify-between overflow-scroll rounded-lg bg-[#1a1a1a] py-4">
+          <div className="space-y-4">
+            {/* header */}
+            <div className="flex items-center justify-between px-4">
+              <h3 className="text-lg font-semibold">My Order</h3>
+              <MdClose
+                onClick={() => setIsCartOpen(false)}
+                className="size-6 cursor-pointer"
+              />
+            </div>
+            {/* ./ header */}
+
+            {/* item list */}
+            <div className="grid">
+              {/* item cart */}
+              {cart.length === 0 && <p className="p-4">Cart Empty</p>}
+
+              {cart.map((item) => {
+                return (
+                  <div
+                    className="flex items-center justify-between border-t border-b border-white/15 p-4"
+                    key={item.id}
+                  >
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="mx-auto aspect-square w-16 rounded-lg bg-gray-500 object-cover object-top"
+                      />
+                      <div className="space-y-2">
+                        <div className="space-y-0.5">
+                          <p className="line-clamp-1 text-sm">{item.title}</p>
+                          <p className="text-sm font-semibold">${item.price}</p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <FaMinus
+                            onClick={() => decreaseQty(item.id)}
+                            className="size-5 cursor-pointer rounded-full bg-red-500 p-1"
+                          />
+                          <p className="">{item.quantity}</p>
+                          <FaPlus
+                            onClick={() => increaseQty(item.id)}
+                            className="size-5 cursor-pointer rounded-full bg-green-500 p-1"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className=""
+                    >
+                      <MdClose className="size-5 cursor-pointer" />
+                    </button>
+                  </div>
+                );
+              })}
+              {/* ./ item cart */}
+            </div>
+            {/* ./ item list */}
+          </div>
+
+          {/* total price item */}
+          <div className="space-y-4 border-t-2 border-white/15 p-4">
+            <div className="flex items-center justify-between">
+              <p className="">Total</p>
+              <p className="">${totalPrice.toFixed(2)}</p>
+            </div>
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-lg bg-[#0a0a0a] py-2"
+            >
+              Checkout
+            </button>
+          </div>
+          {/* ./ total price item */}
+        </div>
+      )}
+      {/* ./ cart items */}
 
       {/* desktop nav */}
       <div className="hidden lg:block">
@@ -132,9 +232,14 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
-              <button className="flex cursor-pointer items-center gap-2 text-xl font-medium">
+              <button
+                onClick={handleCart}
+                className="flex cursor-pointer items-center gap-2 text-xl font-medium"
+              >
                 <BsCartCheck className="size-7" />
-                <span className="text-purple-400">2</span>
+                <span className="text-purple-400">
+                  {cart.length > 0 ? cart.length : "Cart"}
+                </span>
               </button>
               <button
                 onClick={handleLogout}
