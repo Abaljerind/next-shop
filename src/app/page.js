@@ -1,5 +1,6 @@
 "use client";
 
+import { useCart } from "@/context/CartContext";
 import { useEffect, useMemo, useState } from "react";
 
 import { TbCategory } from "react-icons/tb";
@@ -9,6 +10,9 @@ export default function Homepage() {
   const [selectCategory, setSelectCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { addToCart } = useCart();
+  const [showNotif, setShowNotif] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -63,7 +67,15 @@ export default function Homepage() {
     ];
   }, [products]);
 
-  // copy and add new category "All"
+  // handling add product to cart
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setShowNotif(true);
+
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 1500);
+  };
 
   return (
     <>
@@ -137,9 +149,20 @@ export default function Homepage() {
                           ${product.price}
                         </p>
                       </div>
-                      <button className="cursor-pointer rounded-lg bg-purple-700 px-6 py-1.5 font-medium tracking-wider text-white">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="cursor-pointer rounded-lg bg-purple-700 px-6 py-1.5 font-medium tracking-wider text-white"
+                      >
                         Add to cart
                       </button>
+
+                      {/* pop up add to cart */}
+                      {showNotif && (
+                        <p className="fixed right-5 bottom-5 rounded-lg border-2 border-white/15 bg-[#1a1a1a] px-4 py-2 text-white">
+                          Product added to cart ✅
+                        </p>
+                      )}
+                      {/* ./ pop up add to cart */}
                     </div>
                   </div>
                 </div>
