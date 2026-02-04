@@ -45,7 +45,7 @@ export default function Navbar() {
       <div className="relative place-self-start lg:hidden">
         {/* icon nav */}
         {isOpen ? (
-          <MdClose onClick={handleNavMobile} className="fixed z-20 size-6" />
+          <MdClose onClick={handleNavMobile} className="fixed z-30 size-6" />
         ) : (
           <RxHamburgerMenu onClick={handleNavMobile} className="size-6" />
         )}
@@ -55,11 +55,10 @@ export default function Navbar() {
         {/* nav item list */}
 
         <div
-          className={`${isOpen ? "block" : "hidden"} fixed inset-0 z-10 flex h-screen w-screen flex-col items-center justify-center gap-12 bg-black`}
+          className={`${isOpen ? "block" : "hidden"} fixed inset-0 z-20 flex h-screen w-screen flex-col items-center justify-center gap-12 bg-black`}
         >
           <Link
             href={"/"}
-            key={"Home"}
             onClick={() => setIsOpen(false)}
             className={`${pathname === "/" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
           >
@@ -68,7 +67,6 @@ export default function Navbar() {
 
           <Link
             href={"/checkout"}
-            key={"Checkout"}
             onClick={() => setIsOpen(false)}
             className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
           >
@@ -110,7 +108,6 @@ export default function Navbar() {
         <div className="flex items-center lg:gap-12 xl:gap-20">
           <Link
             href={"/"}
-            key={"Home"}
             className={`${pathname === "/" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium duration-200 hover:text-purple-400`}
           >
             Home
@@ -118,7 +115,6 @@ export default function Navbar() {
 
           <Link
             href={"/checkout"}
-            key={"Checkout"}
             onClick={() => setIsOpen(false)}
             className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
           >
