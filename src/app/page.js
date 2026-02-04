@@ -58,9 +58,9 @@ export default function Homepage() {
   // copy and add new category "All"
 
   return (
-    <main className="flex flex-col items-center gap-4 py-4">
+    <main className="flex w-full max-w-7xl flex-col items-center gap-4 py-4 lg:flex-row-reverse lg:items-start lg:gap-6">
       {/* list category */}
-      <section className="w-full space-y-4 rounded-xl border border-white/15 py-4">
+      <section className="w-full space-y-4 rounded-xl border border-white/15 py-4 md:w-11/12 lg:w-96">
         <p className="flex items-center gap-2 pl-2 text-lg font-semibold tracking-wider">
           <TbCategory className="size-6 text-purple-500" /> Categories:
         </p>
@@ -84,29 +84,34 @@ export default function Homepage() {
       {/* ./ list category */}
 
       {/* product list */}
-      <section className="grid items-center gap-4 p-4 md:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+      <section className="grid w-full items-stretch gap-4 p-4 md:grid-cols-2 md:gap-6 lg:p-0 xl:grid-cols-3">
         {productByCategory.map((product) => {
+          const bigCategory =
+            product.category.charAt(0).toUpperCase() +
+            product.category.slice(1);
           return (
             <div
-              className="flex flex-col justify-between rounded-xl border border-white/15 p-4 font-medium text-black"
+              className="flex h-full flex-col justify-between rounded-xl border border-white/15 p-4 font-medium text-black"
               key={product.id}
             >
               <img
                 src={product.image}
                 alt={product.category}
-                className="mx-auto h-72 min-h-52 w-full self-stretch rounded-lg bg-gray-500 object-cover object-top"
+                className="mx-auto aspect-[3/4] w-full rounded-lg bg-gray-500 object-cover object-top"
               />
               <div className="mt-4 flex flex-col gap-4">
-                <h3 className="line-clamp-1 font-medium text-white">
+                <h3 className="line-clamp-1 font-medium text-white lg:text-lg">
                   {product.title}
                 </h3>
-                <span className="w-fit rounded-full border border-white/15 bg-[#1a1a1a] px-4 py-2 text-xs font-semibold text-white">
-                  {product.category}
+                <span className="w-fit rounded-full border border-white/15 bg-[#1a1a1a] px-4 py-2 text-xs font-semibold tracking-wide text-white">
+                  {bigCategory}
                 </span>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="">
-                    <span className="text-xs text-gray-400">Price</span>
-                    <p className="text-white">${product.price}</p>
+                    <span className="text-xs text-gray-400 lg:text-sm">
+                      Price
+                    </span>
+                    <p className="text-white lg:text-lg">${product.price}</p>
                   </div>
                   <button className="cursor-pointer rounded-lg bg-purple-700 px-6 py-1.5 font-medium tracking-wider text-white">
                     Add to cart
