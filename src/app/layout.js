@@ -3,6 +3,7 @@ import "./globals.css";
 import { Footer } from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -20,10 +21,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${urbanist.variable} p-4 antialiased lg:px-24 lg:py-10`}
       >
-        <CartProvider>
-          <Navbar />
-          {children}
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            {children}
+          </CartProvider>
+        </AuthProvider>
         <Footer />
       </body>
     </html>
