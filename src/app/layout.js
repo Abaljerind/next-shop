@@ -2,6 +2,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import Navbar from "@/components/navbar";
+import { CartProvider } from "@/context/CartContext";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -19,9 +20,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${urbanist.variable} p-4 antialiased lg:px-24 lg:py-10`}
       >
-        <Navbar />
-        {children}
-
+        <CartProvider>
+          <Navbar />
+          {children}
+        </CartProvider>
         <Footer />
       </body>
     </html>
