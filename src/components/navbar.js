@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCartCheck } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import { TbLogin2 } from "react-icons/tb";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,11 +28,12 @@ export default function Navbar() {
     {
       label: "Login",
       href: "/login",
+      icon: <TbLogin2 className="size-6 lg:size-7" />,
     },
     {
       label: "Cart",
       href: "/cart",
-      icon: <BsCartCheck className="size-6" />,
+      icon: <BsCartCheck className="size-6 lg:size-7" />,
       cartCount: 4, // nanti ganti dari cart context
     },
   ];
@@ -43,7 +45,7 @@ export default function Navbar() {
   return (
     <nav className="flex flex-row-reverse items-center justify-between pb-4 lg:flex-row">
       {/* nama toko */}
-      <h1 className="text-lg font-bold duration-200 hover:text-purple-400">
+      <h1 className="cursor-pointer text-lg font-bold duration-200 hover:text-purple-400 md:text-2xl xl:text-4xl">
         Next Shop
       </h1>
       {/* ./ nama toko */}
@@ -52,7 +54,7 @@ export default function Navbar() {
       <div className="relative place-self-start lg:hidden">
         {/* icon nav */}
         {isOpen ? (
-          <MdClose onClick={handleNavMobile} className="absolute z-20 size-6" />
+          <MdClose onClick={handleNavMobile} className="fixed z-20 size-6" />
         ) : (
           <RxHamburgerMenu onClick={handleNavMobile} className="size-6" />
         )}
@@ -62,7 +64,7 @@ export default function Navbar() {
         {/* nav item list */}
 
         <div
-          className={`${isOpen ? "block" : "hidden"} fixed inset-0 z-10 flex h-screen w-screen flex-col items-center justify-center gap-4 bg-black`}
+          className={`${isOpen ? "block" : "hidden"} fixed inset-0 z-10 flex h-screen w-screen flex-col items-center justify-center gap-12 bg-black`}
         >
           {navItems.map((item) => {
             return (
@@ -70,12 +72,22 @@ export default function Navbar() {
                 href={item.href}
                 key={item.label}
                 onClick={() => setIsOpen(false)}
-                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 font-medium`}
+                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
               >
-                {item.icon ? item.icon : item.label}
+                {item.label === "Login" ? (
+                  <div className="flex items-center gap-2">
+                    {item.icon} <span className="">Login</span>
+                  </div>
+                ) : item.icon ? (
+                  item.icon
+                ) : (
+                  item.label
+                )}
 
                 {item.cartCount > 0 && (
-                  <span className="font-semibold text-purple-400">2</span>
+                  <span className="text-xl font-semibold text-purple-400">
+                    2
+                  </span>
                 )}
               </Link>
             );
@@ -89,18 +101,28 @@ export default function Navbar() {
       {/* desktop nav */}
       <div className="hidden lg:block">
         {/* nav item */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center lg:gap-12 xl:gap-20">
           {navItems.map((item) => {
             return (
               <Link
                 href={item.href}
                 key={item.label}
-                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 font-medium duration-200 hover:text-purple-400`}
+                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium duration-200 hover:text-purple-400`}
               >
-                {item.icon ? item.icon : item.label}
+                {item.label === "Login" ? (
+                  <div className="flex items-center gap-2">
+                    {item.icon} <span className="">Login</span>
+                  </div>
+                ) : item.icon ? (
+                  item.icon
+                ) : (
+                  item.label
+                )}
 
                 {item.cartCount > 0 && (
-                  <span className="font-semibold text-purple-400">2</span>
+                  <span className="text-xl font-semibold text-purple-400">
+                    2
+                  </span>
                 )}
               </Link>
             );
