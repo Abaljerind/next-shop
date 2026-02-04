@@ -77,14 +77,6 @@ export default function Navbar() {
             Home
           </Link>
 
-          <Link
-            href={"/checkout"}
-            onClick={() => setIsOpen(false)}
-            className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
-          >
-            Checkout
-          </Link>
-
           {!isLoggedIn ? (
             <Link
               href={"/login"}
@@ -96,6 +88,14 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
+              <Link
+                href={"/checkout"}
+                onClick={() => setIsOpen(false)}
+                className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+              >
+                Checkout
+              </Link>
+
               <button
                 onClick={handleCart}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium"
@@ -105,6 +105,7 @@ export default function Navbar() {
                   {cart.length > 0 ? cart.length : "Cart"}
                 </span>
               </button>
+
               <button
                 onClick={handleLogout}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium"
@@ -191,10 +192,10 @@ export default function Navbar() {
               <p className="">${totalPrice.toFixed(2)}</p>
             </div>
             <button
-              type="submit"
+              onClick={handleCart}
               className="w-full cursor-pointer rounded-lg bg-[#0a0a0a] py-2"
             >
-              Checkout
+              <Link href={"/checkout"}>Checkout</Link>
             </button>
           </div>
           {/* ./ total price item */}
@@ -213,14 +214,6 @@ export default function Navbar() {
             Home
           </Link>
 
-          <Link
-            href={"/checkout"}
-            onClick={() => setIsOpen(false)}
-            className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
-          >
-            Checkout
-          </Link>
-
           {!isLoggedIn ? (
             <Link
               href={"/login"}
@@ -232,6 +225,13 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
+              <Link
+                href={"/checkout"}
+                onClick={() => setIsOpen(false)}
+                className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+              >
+                Checkout
+              </Link>
               <button
                 onClick={handleCart}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium"
@@ -241,6 +241,7 @@ export default function Navbar() {
                   {cart.length > 0 ? cart.length : "Cart"}
                 </span>
               </button>
+
               <button
                 onClick={handleLogout}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium hover:text-red-500"
