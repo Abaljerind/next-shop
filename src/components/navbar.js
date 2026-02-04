@@ -1,19 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCartCheck } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
-import { TbLogin2 } from "react-icons/tb";
+import { TbLogin2, TbLogout2 } from "react-icons/tb";
 
 export default function Navbar() {
+  const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleNavMobile = () => {
     setIsOpen((prevState) => !prevState);
+  };
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, [pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setIsOpen(false);
+    router.push("/login");
   };
 
   const navItems = [
@@ -25,22 +42,9 @@ export default function Navbar() {
       label: "Checkout",
       href: "/checkout",
     },
-    {
-      label: "Login",
-      href: "/login",
-      icon: <TbLogin2 className="size-6 lg:size-7" />,
-    },
-    {
-      label: "Cart",
-      href: "/cart",
-      icon: <BsCartCheck className="size-6 lg:size-7" />,
-      cartCount: 4, // nanti ganti dari cart context
-    },
   ];
 
   // TODO: ganti isi cartCount dengan value dari cart context yang isinya untuk menghitung jumlah data di cart
-
-  const pathname = usePathname();
 
   return (
     <nav className="flex flex-row-reverse items-center justify-between border-b-2 border-white/15 pb-4 lg:flex-row">
@@ -74,24 +78,37 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
                 className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
               >
-                {item.label === "Login" ? (
-                  <div className="flex items-center gap-2">
-                    {item.icon} <span className="">Login</span>
-                  </div>
-                ) : item.icon ? (
-                  item.icon
-                ) : (
-                  item.label
-                )}
-
-                {item.cartCount > 0 && (
-                  <span className="text-xl font-semibold text-purple-400">
-                    2
-                  </span>
-                )}
+                {item.label}
               </Link>
             );
           })}
+
+          {!isLoggedIn ? (
+            <Link
+              href={"/login"}
+              onClick={() => setIsOpen(false)}
+              className={`${pathname === "/login" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+            >
+              <TbLogin2 className="size-7" />
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link
+                href={"/cart"}
+                className={`${pathname === "/cart" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+              >
+                <BsCartCheck className="size-7" />
+                <span className="text-purple-400">2</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex cursor-pointer items-center gap-2 text-xl font-medium"
+              >
+                Logout <TbLogout2 className="size-7" />
+              </button>
+            </>
+          )}
         </div>
 
         {/* ./ nav item list */}
@@ -109,24 +126,37 @@ export default function Navbar() {
                 key={item.label}
                 className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium duration-200 hover:text-purple-400`}
               >
-                {item.label === "Login" ? (
-                  <div className="flex items-center gap-2">
-                    {item.icon} <span className="">Login</span>
-                  </div>
-                ) : item.icon ? (
-                  item.icon
-                ) : (
-                  item.label
-                )}
-
-                {item.cartCount > 0 && (
-                  <span className="text-xl font-semibold text-purple-400">
-                    2
-                  </span>
-                )}
+                {item.label}
               </Link>
             );
           })}
+
+          {!isLoggedIn ? (
+            <Link
+              href={"/login"}
+              onClick={() => setIsOpen(false)}
+              className={`${pathname === "/login" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium hover:text-purple-400`}
+            >
+              <TbLogin2 className="size-7" />
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link
+                href={"/cart"}
+                className={`${pathname === "/cart" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium hover:text-purple-400`}
+              >
+                <BsCartCheck className="size-7" />
+                <span className="text-purple-400">2</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex cursor-pointer items-center gap-2 text-xl font-medium hover:text-red-500"
+              >
+                Logout <TbLogout2 className="size-7" />
+              </button>
+            </>
+          )}
         </div>
         {/* ./ nav item */}
       </div>
