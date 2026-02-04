@@ -1,10 +1,12 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function page() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [userName, setUserName] = useState("mor_2314");
   const [pass, setPass] = useState("83r5^_");
@@ -18,25 +20,7 @@ export default function page() {
     setError("");
 
     try {
-      const res = await fetch("https://fakestoreapi.com/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: userName,
-          password: pass,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Login Failed");
-      }
-
-      const data = await res.json();
-
-      // save token session
-      localStorage.setItem("token", data.token);
-
-      // redirect to homepage
+      await login(userName, pass);
       router.push("/");
     } catch (error) {
       setError("Login gagal, coba lagi");
