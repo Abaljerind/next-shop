@@ -121,8 +121,8 @@ export default function Navbar() {
 
       {/* cart items */}
       {isCartOpen && (
-        <div className="fixed inset-0 left-1/2 mt-4 flex w-80 -translate-x-1/2 flex-col justify-between overflow-scroll rounded-lg bg-[#1a1a1a] py-4">
-          <div className="space-y-4">
+        <div className="fixed inset-0 left-1/2 mt-4 flex w-80 -translate-x-1/2 flex-col justify-between rounded-lg bg-[#1a1a1a] py-4 lg:top-6 lg:right-6 lg:bottom-6 lg:left-auto lg:translate-x-0">
+          <div className="space-y-4 overflow-y-scroll">
             {/* header */}
             <div className="flex items-center justify-between px-4">
               <h3 className="text-lg font-semibold">My Order</h3>
