@@ -33,19 +33,6 @@ export default function Navbar() {
     router.push("/login");
   };
 
-  const navItems = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "Checkout",
-      href: "/checkout",
-    },
-  ];
-
-  // TODO: ganti isi cartCount dengan value dari cart context yang isinya untuk menghitung jumlah data di cart
-
   return (
     <nav className="flex flex-row-reverse items-center justify-between border-b-2 border-white/15 pb-4 lg:flex-row">
       {/* nama toko */}
@@ -70,18 +57,23 @@ export default function Navbar() {
         <div
           className={`${isOpen ? "block" : "hidden"} fixed inset-0 z-10 flex h-screen w-screen flex-col items-center justify-center gap-12 bg-black`}
         >
-          {navItems.map((item) => {
-            return (
-              <Link
-                href={item.href}
-                key={item.label}
-                onClick={() => setIsOpen(false)}
-                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          <Link
+            href={"/"}
+            key={"Home"}
+            onClick={() => setIsOpen(false)}
+            className={`${pathname === "/" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+          >
+            Home
+          </Link>
+
+          <Link
+            href={"/checkout"}
+            key={"Checkout"}
+            onClick={() => setIsOpen(false)}
+            className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+          >
+            Checkout
+          </Link>
 
           {!isLoggedIn ? (
             <Link
@@ -94,13 +86,10 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
-              <Link
-                href={"/cart"}
-                className={`${pathname === "/cart" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
-              >
+              <button className="flex cursor-pointer items-center gap-2 text-xl font-medium">
                 <BsCartCheck className="size-7" />
                 <span className="text-purple-400">2</span>
-              </Link>
+              </button>
               <button
                 onClick={handleLogout}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium"
@@ -119,17 +108,22 @@ export default function Navbar() {
       <div className="hidden lg:block">
         {/* nav item */}
         <div className="flex items-center lg:gap-12 xl:gap-20">
-          {navItems.map((item) => {
-            return (
-              <Link
-                href={item.href}
-                key={item.label}
-                className={`${pathname === item.href ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium duration-200 hover:text-purple-400`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          <Link
+            href={"/"}
+            key={"Home"}
+            className={`${pathname === "/" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium duration-200 hover:text-purple-400`}
+          >
+            Home
+          </Link>
+
+          <Link
+            href={"/checkout"}
+            key={"Checkout"}
+            onClick={() => setIsOpen(false)}
+            className={`${pathname === "/checkout" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium`}
+          >
+            Checkout
+          </Link>
 
           {!isLoggedIn ? (
             <Link
@@ -142,13 +136,10 @@ export default function Navbar() {
             </Link>
           ) : (
             <>
-              <Link
-                href={"/cart"}
-                className={`${pathname === "/cart" ? "text-purple-400" : ""} flex items-center gap-2 text-xl font-medium hover:text-purple-400`}
-              >
+              <button className="flex cursor-pointer items-center gap-2 text-xl font-medium">
                 <BsCartCheck className="size-7" />
                 <span className="text-purple-400">2</span>
-              </Link>
+              </button>
               <button
                 onClick={handleLogout}
                 className="flex cursor-pointer items-center gap-2 text-xl font-medium hover:text-red-500"
