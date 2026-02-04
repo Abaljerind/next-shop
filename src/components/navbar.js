@@ -43,7 +43,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-row-reverse items-center justify-between pb-4 lg:flex-row">
+    <nav className="flex flex-row-reverse items-center justify-between border-b-2 border-white/15 pb-4 lg:flex-row">
       {/* nama toko */}
       <h1 className="cursor-pointer text-lg font-bold duration-200 hover:text-purple-400 md:text-2xl xl:text-4xl">
         Next Shop
