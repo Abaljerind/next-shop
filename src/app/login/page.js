@@ -1,4 +1,50 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 export default function page() {
+  const router = useRouter();
+
+  const [userName, setUserName] = useState("mor_2314");
+  const [pass, setPass] = useState("83r5^_");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // handling login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("https://fakestoreapi.com/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userName,
+          password: pass,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Login Failed");
+      }
+
+      const data = await res.json();
+
+      // save token session
+      localStorage.setItem("token", data.token);
+
+      // redirect to homepage
+      router.push("/");
+    } catch (error) {
+      setError("Login gagal, coba lagi");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="mx-auto mt-8 h-max rounded-lg border-4 border-white/15 bg-[#1a1a1a] px-4 py-6 md:max-w-xl lg:max-w-3xl lg:space-y-6">
       <div className="space-y-4 py-6 lg:space-y-6">
@@ -8,25 +54,27 @@ export default function page() {
         </h1>
         {/* ./ login title */}
 
-        <form className="">
-          {/* input email & password */}
+        <form className="" onSubmit={handleLogin}>
+          {/* input username & password */}
           <div className="mb-8 space-y-4 md:space-y-6">
-            {/* input email */}
+            {/* input username */}
             <div className="mx-auto flex flex-col gap-2 md:w-3/5 md:gap-3">
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="font-semibold tracking-wide lg:text-lg"
               >
-                Email Address
+                Username
               </label>
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="text"
+                name="username"
+                id="username"
+                value={userName}
+                disabled
                 className="rounded-lg bg-[#0a0a0a] px-4 py-2"
               />
             </div>
-            {/* ./ input email */}
+            {/* ./ input username */}
 
             {/* input password */}
             <div className="mx-auto flex flex-col gap-2 md:w-3/5 md:gap-3">
@@ -40,20 +88,27 @@ export default function page() {
                 type="password"
                 name="password"
                 id="password"
+                value={pass}
+                disabled
                 className="rounded-lg bg-[#0a0a0a] px-4 py-2"
               />
             </div>
             {/* ./ input password */}
           </div>
-          {/* ./ input email & password */}
+          {/* ./ input username & password */}
+
+          {/* Error pop-up */}
+          {error && <p className="mb-4 text-center text-red-500">{error}</p>}
+          {/* ./ Error pop-up */}
 
           {/* button login */}
           <div className="mx-auto md:w-3/5">
             <button
               type="submit"
+              disabled={loading}
               className="w-full cursor-pointer rounded-lg bg-purple-500 py-3 font-semibold text-white lg:text-lg"
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
           {/* button login */}
